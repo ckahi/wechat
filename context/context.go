@@ -4,8 +4,13 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/silenceper/wechat/cache"
+	"github.com/ckahi/wechat/cache"
 )
+
+type Strategy struct {
+	GetAccessToken func(appid string) (accessToken string, err error)
+	GetJsTicket    func(appid string) (jsTicket string, err error)
+}
 
 // Context struct
 type Context struct {
@@ -24,6 +29,9 @@ type Context struct {
 
 	//jsAPITicket 读写锁 同一个AppID一个
 	jsAPITicketLock *sync.RWMutex
+
+	// 自定义策略，可用于将部分方法改为自己的实现，例如accessToken的获取等
+	Strategy Strategy
 }
 
 // Query returns the keyed url query value if it exists

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/silenceper/wechat/context"
-	"github.com/silenceper/wechat/util"
+	"github.com/ckahi/wechat/context"
+	"github.com/ckahi/wechat/util"
 )
 
 const (
@@ -38,13 +38,13 @@ func (oauth *Oauth) GetRedirectURL(redirectURI, scope, state string) (string, er
 }
 
 //Redirect 跳转到网页授权
-func (oauth *Oauth) Redirect(writer http.ResponseWriter, redirectURI, scope, state string) error {
+func (oauth *Oauth) Redirect(writer http.ResponseWriter, request *http.Request, redirectURI, scope, state string) error {
 	location, err := oauth.GetRedirectURL(redirectURI, scope, state)
 	if err != nil {
 		return err
 	}
 	//location 为完整地址，所以不需要request
-	http.Redirect(writer, nil, location, 302)
+	http.Redirect(writer, request, location, 302)
 	return nil
 }
 
@@ -57,6 +57,7 @@ type ResAccessToken struct {
 	RefreshToken string `json:"refresh_token"`
 	OpenID       string `json:"openid"`
 	Scope        string `json:"scope"`
+	Unionid      string `json:"unionid"`
 }
 
 // GetUserAccessToken 通过网页授权的code 换取access_token(区别于context中的access_token)

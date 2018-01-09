@@ -4,15 +4,17 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/silenceper/wechat/cache"
-	"github.com/silenceper/wechat/context"
-	"github.com/silenceper/wechat/js"
-	"github.com/silenceper/wechat/material"
-	"github.com/silenceper/wechat/menu"
-	"github.com/silenceper/wechat/oauth"
-	"github.com/silenceper/wechat/server"
-	"github.com/silenceper/wechat/template"
-	"github.com/silenceper/wechat/user"
+	"github.com/ckahi/wechat/cache"
+	"github.com/ckahi/wechat/context"
+	"github.com/ckahi/wechat/group"
+	"github.com/ckahi/wechat/js"
+	"github.com/ckahi/wechat/material"
+	"github.com/ckahi/wechat/menu"
+	"github.com/ckahi/wechat/oauth"
+	"github.com/ckahi/wechat/qrcode"
+	"github.com/ckahi/wechat/server"
+	"github.com/ckahi/wechat/template"
+	"github.com/ckahi/wechat/user"
 )
 
 // Wechat struct
@@ -27,6 +29,7 @@ type Config struct {
 	Token          string
 	EncodingAESKey string
 	Cache          cache.Cache
+	Strategy       context.Strategy
 }
 
 // NewWechat init
@@ -42,6 +45,7 @@ func copyConfigToContext(cfg *Config, context *context.Context) {
 	context.Token = cfg.Token
 	context.EncodingAESKey = cfg.EncodingAESKey
 	context.Cache = cfg.Cache
+	context.Strategy = cfg.Strategy
 	context.SetAccessTokenLock(new(sync.RWMutex))
 	context.SetJsAPITicketLock(new(sync.RWMutex))
 }
@@ -78,6 +82,11 @@ func (wc *Wechat) GetMenu() *menu.Menu {
 	return menu.NewMenu(wc.Context)
 }
 
+// GetMenu 分组管理接口
+func (wc *Wechat) GetGroup() *group.Group {
+	return group.NewGroup(wc.Context)
+}
+
 // GetUser 用户管理接口
 func (wc *Wechat) GetUser() *user.User {
 	return user.NewUser(wc.Context)
@@ -86,4 +95,9 @@ func (wc *Wechat) GetUser() *user.User {
 // GetTemplate 模板消息接口
 func (wc *Wechat) GetTemplate() *template.Template {
 	return template.NewTemplate(wc.Context)
+}
+
+// GetQrCode 二维码管理
+func (wc *Wechat) GetQrCode() *qrcode.QrCode {
+	return qrcode.NewQrCode(wc.Context)
 }
