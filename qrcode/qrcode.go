@@ -60,8 +60,6 @@ func (qrcode *QrCode) GetQrCode(actionName string, scene map[string]string, expi
 		ActionInfo:    actionInfo,
 	}
 
-	fmt.Println("reqParams", reqParams)
-
 	uri := fmt.Sprintf("%s%s?access_token=%s", baseApi, createURL, accessToken)
 	var response []byte
 	response, err = util.PostJSON(uri, reqParams)
