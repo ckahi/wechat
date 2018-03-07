@@ -72,7 +72,7 @@ func (qrcode *QrCode) GetQrCode(actionName string, scene map[string]string, expi
 	}
 
 	if resCreate.ErrCode != 0 {
-		err = fmt.Errorf("AddGroup Error , errcode=%d , errmsg=%s", resCreate.ErrCode, resCreate.ErrMsg)
+		err = fmt.Errorf("GetQrCode Error , errcode=%d , errmsg=%s", resCreate.ErrCode, resCreate.ErrMsg)
 		return
 	}
 	return
