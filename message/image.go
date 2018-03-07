@@ -2,10 +2,10 @@ package message
 
 //Image 图片消息
 type Image struct {
-	CommonToken
+	CommonToken `json:"-"`
 
 	Image struct {
-		MediaID string `xml:"MediaId"`
+		MediaID string `xml:"MediaId" json:"media_id"`
 	} `xml:"Image"`
 }
 

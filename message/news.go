@@ -2,10 +2,10 @@ package message
 
 //News 图文消息
 type News struct {
-	CommonToken
+	CommonToken `json:"-"`
 
-	ArticleCount int        `xml:"ArticleCount"`
-	Articles     []*Article `xml:"Articles>item,omitempty"`
+	ArticleCount int        `xml:"ArticleCount" json:"omitempty"`
+	Articles     []*Article `xml:"Articles>item,omitempty"  json:"articles"`
 }
 
 //NewNews 初始化图文消息

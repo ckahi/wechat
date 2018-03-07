@@ -2,8 +2,8 @@ package message
 
 //Text 文本消息
 type Text struct {
-	CommonToken
-	Content string `xml:"Content"`
+	CommonToken `json:"-"`
+	Content     string `xml:"Content" json:"content"`
 }
 
 //NewText 初始化文本消息

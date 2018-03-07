@@ -1,6 +1,8 @@
 package message
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 // MsgType 基本消息类型
 type MsgType string

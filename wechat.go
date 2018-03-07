@@ -10,6 +10,7 @@ import (
 	"github.com/ckahi/wechat/js"
 	"github.com/ckahi/wechat/material"
 	"github.com/ckahi/wechat/menu"
+	"github.com/ckahi/wechat/message"
 	"github.com/ckahi/wechat/oauth"
 	"github.com/ckahi/wechat/qrcode"
 	"github.com/ckahi/wechat/server"
@@ -100,4 +101,9 @@ func (wc *Wechat) GetTemplate() *template.Template {
 // GetQrCode 二维码管理
 func (wc *Wechat) GetQrCode() *qrcode.QrCode {
 	return qrcode.NewQrCode(wc.Context)
+}
+
+// GetQrCode 二维码管理
+func (wc *Wechat) GetCustom() *message.Custom {
+	return message.NewCustom(wc.Context)
 }
