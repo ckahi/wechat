@@ -67,7 +67,6 @@ func (qrcode *QrCode) GetQrCode(actionName string, scene map[string]string, expi
 	if err != nil {
 		return
 	}
-	fmt.Println(string(response))
 	err = json.Unmarshal(response, &resCreate)
 	if err != nil {
 		return
