@@ -33,8 +33,9 @@ type reqQrCode struct {
 
 type ResCreate struct {
 	util.CommonError
-	Ticket string `json:"ticket,omitempty"`
-	URL    string `json:"url,omitempty"`
+	Ticket        string  `json:"ticket,omitempty"`
+	URL           string  `json:"url,omitempty"`
+	ExpireSeconds float64 `json:"expire_seconds,omitempty"`
 }
 
 //NewQrCode 实例
@@ -66,6 +67,7 @@ func (qrcode *QrCode) GetQrCode(actionName string, scene map[string]string, expi
 	if err != nil {
 		return
 	}
+	fmt.Println(string(response))
 	err = json.Unmarshal(response, &resCreate)
 	if err != nil {
 		return
