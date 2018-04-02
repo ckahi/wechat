@@ -14,6 +14,7 @@ import (
 	"github.com/ckahi/wechat/oauth"
 	"github.com/ckahi/wechat/qrcode"
 	"github.com/ckahi/wechat/server"
+	"github.com/ckahi/wechat/tag"
 	"github.com/ckahi/wechat/template"
 	"github.com/ckahi/wechat/user"
 )
@@ -106,4 +107,9 @@ func (wc *Wechat) GetQrCode() *qrcode.QrCode {
 // GetQrCode 二维码管理
 func (wc *Wechat) GetCustom() *message.Custom {
 	return message.NewCustom(wc.Context)
+}
+
+// GetQrCode 二维码管理
+func (wc *Wechat) GetTag() *tag.Tag {
+	return tag.NewMpTag(wc.Context)
 }
