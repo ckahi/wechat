@@ -132,3 +132,31 @@ func (tag *Tag) BatchUnTagging(openids []string, tagid int64) (err error) {
 	}
 	return
 }
+
+//获取用户身上标签列表
+func (tag *Tag) GetUserTags(openid string) (userTags RespUserTags, err error) {
+	accessToken, err := tag.GetAccessToken()
+	if err != nil {
+		return
+	}
+	uri := fmt.Sprintf("%s%s?access_token=%s", baseApi, userTagsGetURL, accessToken)
+
+	params := map[string]string{
+		"openid": openid,
+	}
+	var response []byte
+	response, err = util.PostJSON(uri, params)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &userTags)
+	if err != nil {
+		return
+	}
+	if userTags.ErrCode != 0 {
+		err = fmt.Errorf("BatchUnTagging Error , errcode=%d , errmsg=%s", userTags.ErrCode, userTags.ErrMsg)
+		return
+	}
+	return
+}

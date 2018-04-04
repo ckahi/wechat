@@ -14,6 +14,7 @@ const (
 	tagsDeleteURL     = "/tags/delete"
 	batchTaggingURL   = "/tags/members/batchtagging"
 	batchUnTaggingURL = "/tags/members/batchuntagging"
+	userTagsGetURL    = "/tags/getidlist"
 )
 
 type reqCreateTag struct {
@@ -43,4 +44,9 @@ type Tag struct {
 type reqBatchTagging struct {
 	OpenidList []string `json:"openid_list"`
 	TagId      int64    `json:"tagid"`
+}
+
+type RespUserTags struct {
+	util.CommonError
+	TagIds []int `json:"tagid_list"`
 }
