@@ -16,12 +16,13 @@ type Custom struct {
 	*context.Context
 }
 
-type ReqSend struct {
+type ReqSendCustom struct {
 	ToUser  string  `json:"touser"`
 	MsgType MsgType `json:"msgtype"`
 	Image   *Image  `json:"image,omitempty"`
 	Text    *Text   `json:"text"`
 	News    *News   `json:"news,omitempty"`
+	Link    *Link   `json:"link,omitempty"`
 }
 
 type RespSend struct {
@@ -34,7 +35,7 @@ func NewCustom(context *context.Context) *Custom {
 	return custom
 }
 
-func (custom *Custom) Send(reqParams ReqSend) (resp RespSend, err error) {
+func (custom *Custom) Send(reqParams ReqSendCustom) (resp RespSend, err error) {
 	var accessToken string
 	accessToken, err = custom.GetAccessToken()
 	if err != nil {

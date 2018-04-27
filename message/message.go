@@ -62,6 +62,8 @@ const (
 	EventLocationSelect = "location_select"
 	//EventTemplateSendJobFinish 发送模板消息推送通知
 	EventTemplateSendJobFinish = "TEMPLATESENDJOBFINISH"
+	//用户进入小程序客服界面事件
+	EventUserEnterTempsession = "Userentertempsession"
 )
 
 //MixMessage 存放所有微信发送过来的消息和事件
@@ -84,14 +86,15 @@ type MixMessage struct {
 	URL          string  `xml:"Url"`
 
 	//事件相关
-	Event     EventType `xml:"Event"`
-	EventKey  string    `xml:"EventKey"`
-	Ticket    string    `xml:"Ticket"`
-	Latitude  string    `xml:"Latitude"`
-	Longitude string    `xml:"Longitude"`
-	Precision string    `xml:"Precision"`
-	MenuID    string    `xml:"MenuId"`
-	Status    string    `xml:"Status"`
+	Event       EventType `xml:"Event"`
+	EventKey    string    `xml:"EventKey"`
+	Ticket      string    `xml:"Ticket"`
+	Latitude    string    `xml:"Latitude"`
+	Longitude   string    `xml:"Longitude"`
+	Precision   string    `xml:"Precision"`
+	MenuID      string    `xml:"MenuId"`
+	Status      string    `xml:"Status"`
+	SessionFrom string    `xml:"SessionFrom" json:"SessionFrom"`
 
 	ScanCodeInfo struct {
 		ScanType   string `xml:"ScanType"`
