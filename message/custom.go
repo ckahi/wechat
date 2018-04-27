@@ -17,12 +17,12 @@ type Custom struct {
 }
 
 type ReqSendCustom struct {
-	ToUser  string  `json:"touser"`
-	MsgType MsgType `json:"msgtype"`
-	Image   *Image  `json:"image,omitempty"`
-	Text    *Text   `json:"text"`
-	News    *News   `json:"news,omitempty"`
-	Link    *Link   `json:"link,omitempty"`
+	ToUser  string  `json:"touser" xml:"touser"`
+	MsgType MsgType `json:"msgtype"  xml:"msgtype"`
+	Image   *Image  `json:"image,omitempty"  xml:"image,omitempty"`
+	Text    *Text   `json:"text,omitempty"  xml:"text,omitempty"`
+	News    *News   `json:"news,omitempty"  json:"news,omitempty"`
+	Link    *Link   `json:"link,omitempty" json:"link,omitempty"`
 }
 
 type RespSend struct {

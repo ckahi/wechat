@@ -63,7 +63,7 @@ const (
 	//EventTemplateSendJobFinish 发送模板消息推送通知
 	EventTemplateSendJobFinish = "TEMPLATESENDJOBFINISH"
 	//用户进入小程序客服界面事件
-	EventUserEnterTempsession = "Userentertempsession"
+	EventUserEnterTempsession = "user_enter_tempsession"
 )
 
 //MixMessage 存放所有微信发送过来的消息和事件
