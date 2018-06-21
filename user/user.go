@@ -9,8 +9,9 @@ import (
 )
 
 const (
-	userInfoURL = "https://api.weixin.qq.com/cgi-bin/user/info"
-	userListURL = "https://api.weixin.qq.com/cgi-bin/user/get"
+	userInfoURL      = "https://api.weixin.qq.com/cgi-bin/user/info"
+	userListURL      = "https://api.weixin.qq.com/cgi-bin/user/get"
+	batchUserInfoURL = "https://api.weixin.qq.com/cgi-bin/user/info/batchget"
 )
 
 //User 用户管理
@@ -43,6 +44,11 @@ type Info struct {
 	Remark        string  `json:"remark"`
 	GroupID       int32   `json:"groupid"`
 	TagidList     []int32 `json:"tagid_list"`
+}
+
+type InfoList struct {
+	util.CommonError
+	UserInfoList []Info `json:"user_info_list"`
 }
 
 type UserList struct {
@@ -100,6 +106,39 @@ func (user *User) GetUserLists(nextOpenID string) (userList *UserList, err error
 	}
 	if userList.ErrCode != 0 {
 		err = fmt.Errorf("GetUserInfo Error , errcode=%d , errmsg=%s", userList.ErrCode, userList.ErrMsg)
+		return
+	}
+	return
+}
+
+func (user *User) GetUserInfoList(openids []string) (infoList *InfoList, err error) {
+	var accessToken string
+	accessToken, err = user.GetAccessToken()
+	if err != nil {
+		return
+	}
+	params := map[string][]map[string]string{
+		"user_list": make([]map[string]string, 0),
+	}
+	for _, openid := range openids {
+		params["user_list"] = append(params["user_list"], map[string]string{
+			"openid": openid,
+		})
+	}
+
+	uri := fmt.Sprintf("%s?access_token=%s", batchUserInfoURL, accessToken)
+	var response []byte
+	response, err = util.PostJSON(uri, params)
+	if err != nil {
+		return
+	}
+	infoList = new(InfoList)
+	err = json.Unmarshal(response, infoList)
+	if err != nil {
+		return
+	}
+	if infoList.ErrCode != 0 {
+		err = fmt.Errorf("GetUserInfo Error , errcode=%d , errmsg=%s", infoList.ErrCode, infoList.ErrMsg)
 		return
 	}
 	return
