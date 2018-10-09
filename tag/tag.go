@@ -101,6 +101,37 @@ func (tag *Tag) BatchTagging(openids []string, tagid int64) (err error) {
 	return
 }
 
+//获取标签下的粉丝列表
+func (tag *Tag) GetTagUsers(nextOpenid string, tagid int64) (resp RespTagUsers, err error) {
+	accessToken, err := tag.GetAccessToken()
+	if err != nil {
+		return
+	}
+	uri := fmt.Sprintf("%s%s?access_token=%s", baseApi, tagUsersURL, accessToken)
+	var (
+		response []byte
+	)
+
+	params := reqTagUsers{
+		TagId:      tagid,
+		NextOpenid: nextOpenid,
+	}
+	response, err = util.PostJSON(uri, params)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(response, &resp)
+	if err != nil {
+		return
+	}
+	if resp.ErrCode != 0 {
+		err = fmt.Errorf("GetTagUsers Error , errcode=%d , errmsg=%s", resp.ErrCode, resp.ErrMsg)
+		return
+	}
+	return
+}
+
 //批量为用户取消
 func (tag *Tag) BatchUnTagging(openids []string, tagid int64) (err error) {
 	accessToken, err := tag.GetAccessToken()
