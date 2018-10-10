@@ -18,7 +18,7 @@ type Custom struct {
 
 type CustomImage struct {
 	CommonToken `json:"-"`
-	MediaID     string `xml:"MediaId"`
+	MediaID     string `json:"media_id" xml:"MediaId"`
 }
 
 //NewImage 回复图片消息
