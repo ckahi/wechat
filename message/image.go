@@ -4,7 +4,7 @@ package message
 type Image struct {
 	CommonToken `json:"-"`
 	Image       struct {
-		MediaID string `xml:"MediaId"`
+		MediaID string `xml:"MediaId" json:"media_id"`
 	} `xml:"Image"`
 }
 
