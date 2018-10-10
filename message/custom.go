@@ -16,13 +16,25 @@ type Custom struct {
 	*context.Context
 }
 
+type CustomImage struct {
+	CommonToken `json:"-"`
+	MediaID     string `xml:"MediaId"`
+}
+
+//NewImage 回复图片消息
+func NewCustomImage(mediaID string) *CustomImage {
+	image := new(CustomImage)
+	image.MediaID = mediaID
+	return image
+}
+
 type ReqSendCustom struct {
-	ToUser  string  `json:"touser" xml:"touser"`
-	MsgType MsgType `json:"msgtype"  xml:"msgtype"`
-	Image   *Image  `json:"image,omitempty"  xml:"image,omitempty"`
-	Text    *Text   `json:"text,omitempty"  xml:"text,omitempty"`
-	News    *News   `json:"news,omitempty"  json:"news,omitempty"`
-	Link    *Link   `json:"link,omitempty" json:"link,omitempty"`
+	ToUser  string       `json:"touser" xml:"touser"`
+	MsgType MsgType      `json:"msgtype"  xml:"msgtype"`
+	Image   *CustomImage `json:"image,omitempty"  xml:"image,omitempty"`
+	Text    *Text        `json:"text,omitempty"  xml:"text,omitempty"`
+	News    *News        `json:"news,omitempty"  json:"news,omitempty"`
+	Link    *Link        `json:"link,omitempty" json:"link,omitempty"`
 }
 
 type RespSend struct {
