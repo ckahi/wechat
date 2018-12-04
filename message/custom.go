@@ -29,12 +29,13 @@ func NewCustomImage(mediaID string) *CustomImage {
 }
 
 type ReqSendCustom struct {
-	ToUser  string       `json:"touser" xml:"touser"`
-	MsgType MsgType      `json:"msgtype"  xml:"msgtype"`
-	Image   *CustomImage `json:"image,omitempty"  xml:"image,omitempty"`
-	Text    *Text        `json:"text,omitempty"  xml:"text,omitempty"`
-	News    *News        `json:"news,omitempty"  json:"news,omitempty"`
-	Link    *Link        `json:"link,omitempty" json:"link,omitempty"`
+	ToUser      string       `json:"touser" xml:"touser"`
+	MsgType     MsgType      `json:"msgtype"  xml:"msgtype"`
+	Image       *CustomImage `json:"image,omitempty"  xml:"image,omitempty"`
+	Text        *Text        `json:"text,omitempty"  xml:"text,omitempty"`
+	News        *News        `json:"news,omitempty"  xml:"news,omitempty"`
+	Link        *Link        `json:"link,omitempty" xml:"link,omitempty"`
+	MiniAppCard *MiniAppCard `json:"miniprogrampage,omitempty" xml:"miniprogrampage,omitempty"`
 }
 
 type RespSend struct {
