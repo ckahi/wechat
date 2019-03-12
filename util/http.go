@@ -7,13 +7,32 @@ import (
 	"io"
 	"io/ioutil"
 	"mime/multipart"
+	"net"
 	"net/http"
 	"os"
+	"time"
+)
+
+var (
+	client = &http.Client{
+		Transport: &http.Transport{
+			DialContext: (&net.Dialer{
+				Timeout:   5 * time.Second,
+				KeepAlive: 30 * time.Second,
+				DualStack: false,
+			}).DialContext,
+			MaxIdleConns:          500,
+			MaxIdleConnsPerHost:   30,
+			IdleConnTimeout:       90 * time.Second,
+			TLSHandshakeTimeout:   3 * time.Second,
+			ExpectContinueTimeout: 1 * time.Second,
+		},
+	}
 )
 
 //HTTPGet get 请求
 func HTTPGet(uri string) ([]byte, error) {
-	response, err := http.Get(uri)
+	response, err := client.Get(uri)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +56,7 @@ func PostJSON(uri string, obj interface{}) ([]byte, error) {
 	jsonData = bytes.Replace(jsonData, []byte("\\u0026"), []byte("&"), -1)
 
 	body := bytes.NewBuffer(jsonData)
-	response, err := http.Post(uri, "application/json;charset=utf-8", body)
+	response, err := client.Post(uri, "application/json;charset=utf-8", body)
 	if err != nil {
 		return nil, err
 	}
