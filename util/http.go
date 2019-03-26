@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -14,17 +15,16 @@ import (
 )
 
 var (
+	connectTimeout   = 2 * time.Second
+	readWriteTimeout = 3 * time.Second
+
 	client = &http.Client{
 		Transport: &http.Transport{
-			DialContext: (&net.Dialer{
-				Timeout:   5 * time.Second,
-				KeepAlive: 30 * time.Second,
-				DualStack: false,
-			}).DialContext,
+			DialContext:           timeoutDialerCtx(connectTimeout, readWriteTimeout),
 			MaxIdleConns:          500,
 			MaxIdleConnsPerHost:   30,
 			IdleConnTimeout:       90 * time.Second,
-			TLSHandshakeTimeout:   3 * time.Second,
+			TLSHandshakeTimeout:   10 * time.Second,
 			ExpectContinueTimeout: 1 * time.Second,
 		},
 	}
@@ -138,4 +138,21 @@ func PostMultipartForm(fields []MultipartFormField, uri string) (respBody []byte
 	}
 	respBody, err = ioutil.ReadAll(resp.Body)
 	return
+}
+
+// TimeoutDialerCtx returns functions of connection dialer with timeout settings for http.Transport Dial field.
+func timeoutDialerCtx(cTimeout time.Duration, rwTimeout time.Duration) func(ctx context.Context, net, addr string) (c net.Conn, err error) {
+	return func(ctxx context.Context, netw, addr string) (net.Conn, error) {
+		d := &net.Dialer{
+			Timeout:   cTimeout,
+			KeepAlive: 30 * time.Second,
+			DualStack: false,
+		}
+		conn, err := d.Dial(netw, addr)
+		if err != nil {
+			return nil, err
+		}
+		err = conn.SetDeadline(time.Now().Add(rwTimeout))
+		return conn, err
+	}
 }
