@@ -15,18 +15,20 @@ import (
 )
 
 var (
-	connectTimeout   = 2 * time.Second
-	readWriteTimeout = 3 * time.Second
-
 	client = &http.Client{
 		Transport: &http.Transport{
-			DialContext:           timeoutDialerCtx(connectTimeout, readWriteTimeout),
+			DialContext: (&net.Dialer{
+				Timeout:   5 * time.Second,
+				KeepAlive: 30 * time.Second,
+				DualStack: false,
+			}).DialContext,
 			MaxIdleConns:          500,
 			MaxIdleConnsPerHost:   30,
 			IdleConnTimeout:       90 * time.Second,
 			TLSHandshakeTimeout:   10 * time.Second,
 			ExpectContinueTimeout: 1 * time.Second,
 		},
+		Timeout: 5 * time.Second,
 	}
 )
 
