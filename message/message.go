@@ -33,6 +33,8 @@ const (
 	MsgTypeTransfer = "transfer_customer_service"
 	//MsgTypeEvent 表示事件推送消息
 	MsgTypeEvent = "event"
+	//MsgTypeMiniApp 表示小程序卡片消息[限接收]
+	MsgTypeMiniApp = "miniprogrampage"
 )
 
 const (
@@ -95,6 +97,9 @@ type MixMessage struct {
 	MenuID      string    `xml:"MenuId"`
 	Status      string    `xml:"Status"`
 	SessionFrom string    `xml:"SessionFrom" json:"SessionFrom"`
+	AppID       string    `xml:"AppId" json:"AppId"`
+	PagePath    string    `xml:"PagePath" json:"PagePath"`
+	ThumbUrl    string    `xml:"ThumbUrl" json:"ThumbUrl"`
 
 	ScanCodeInfo struct {
 		ScanType   string `xml:"ScanType"`
